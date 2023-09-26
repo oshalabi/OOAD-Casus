@@ -20,7 +20,7 @@ Hoe wordt "meer gevorderde spelers" gedefinieerd? aantal quizzes of totaal punte
 moet dit ook in het prototype dat wij gaan maken worden meegenomen? Nee
 
 
-1- is gekruikersnaam uniek?
-2- Kirjgt de speler direct een letter voor elke goed antwoord of aan eind van de quiz?
-3- wat als er een foutmelding tijdens het kopen van de Credits?
-4- Wanneer kan een speler credits kopen? alleen als hij/zij onvoldoende credits heeft of wanneer hij/zij wilt?
+1- is gekruikersnaam uniek? ja
+2- Kirjgt de speler direct een letter voor elke goed antwoord of aan eind van de quiz? aan het eind.
+3- wat als er een foutmelding tijdens het kopen van de Credits? mislukt
+4- Wanneer kan een speler credits kopen? alleen als hij/zij onvoldoende credits heeft of wanneer hij/zij wilt? wanneer hij wil.
