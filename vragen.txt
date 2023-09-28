@@ -1,0 +1,26 @@
+"In de toekomst wil MEC Games ook versies in andere talen (bijv. Engels, Duits, Frans en Spaans) op de markt brengen."
+Hoe moeten wij het toevoegen van een nieuwe taal voor ons zien?
+wordt dit binnen de applicatie gedaan door een ingelogde beheerder ofzo?
+of wordt dit handmatig binnen de code gedaan?
+of iets anders?
+
+Hoe maakt (nog) niet uit, mogelijkheid van meerdere talen ondersteunen binnen domein
+
+
+"Hoeveel punten er precies worden toegekend voor een goed beantwoorde vraag en voor het woord dat is
+gevormd, moet nog nader worden gespecificeerd"
+Kan dit aantal punten per vraag verschillen? 
+
+Ja
+
+
+"Ook kan besloten worden om de tijd alleen voor meer 
+gevorderde spelers mee te nemen in de score."
+Hoe wordt "meer gevorderde spelers" gedefinieerd? aantal quizzes of totaal punten, beargumenteer waarom
+moet dit ook in het prototype dat wij gaan maken worden meegenomen? Nee
+
+
+1- is gekruikersnaam uniek? ja
+2- Kirjgt de speler direct een letter voor elke goed antwoord of aan eind van de quiz? aan het eind.
+3- wat als er een foutmelding tijdens het kopen van de Credits? mislukt
+4- Wanneer kan een speler credits kopen? alleen als hij/zij onvoldoende credits heeft of wanneer hij/zij wilt? wanneer hij wil.
