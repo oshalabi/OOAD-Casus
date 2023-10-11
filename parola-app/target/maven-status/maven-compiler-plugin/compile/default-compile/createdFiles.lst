@@ -1,0 +1,13 @@
+han\nl\oose\ooad\score\Score.class
+han\nl\oose\ooad\Main.class
+han\nl\oose\ooad\player\Player.class
+han\nl\oose\ooad\category\Category.class
+han\nl\oose\ooad\controller\ParolaController.class
+han\nl\oose\ooad\quiz\MagicWord.class
+han\nl\oose\ooad\credit\Credit.class
+han\nl\oose\ooad\quiz\Quiz.class
+han\nl\oose\ooad\question\OpenQuestion.class
+han\nl\oose\ooad\score\correctAnswersAndMagicWordStrategy.class
+han\nl\oose\ooad\ParolaMain.class
+han\nl\oose\ooad\question\MultipleChoiceQuestion.class
+han\nl\oose\ooad\question\Question.class
