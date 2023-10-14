@@ -14,10 +14,10 @@ public class Players implements IPlayers {
 
     @Override
     public List<Player> createDummyPlayers() {
-        this.players.add(new Player("Test 1", "1234", 500));
-        this.players.add(new Player("Test 2", "1234", 1000));
-        this.players.add(new Player("Test 3", "1234", 200));
-        this.players.add(new Player("Test 4", "1234", 10));
+        this.players.add(new Player("Test 1", "1234", 50, 500));
+        this.players.add(new Player("Test 2", "1234", 0,1000));
+        this.players.add(new Player("Test 3", "1234", 150,200));
+        this.players.add(new Player("Test 4", "1234", 200,10));
         return players;
 
     }

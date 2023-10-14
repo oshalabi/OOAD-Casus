@@ -13,10 +13,16 @@ public class MagicWords implements IMagicWords {
     @Override
     public List<String> createWords() {
         wordsToUse = new ArrayList<>();
-        wordsToUse.add("TILDE");
-        wordsToUse.add("DETAIL");
-        wordsToUse.add("DIALECT");
-        wordsToUse.add("CITADEL");
+        wordsToUse.add("afvlucht");
+        wordsToUse.add("joystick");
+        wordsToUse.add("Kwakzalf");
+        wordsToUse.add("Uitschep");
+        wordsToUse.add("Kwiklamp");
+        wordsToUse.add("Xanthoom");
+        wordsToUse.add("Topclubs");
+        wordsToUse.add("Zichzelf");
+        wordsToUse.add("Yenkoers");
+        wordsToUse.add("Zwachtel");
         return wordsToUse;
     }
 

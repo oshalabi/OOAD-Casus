@@ -16,8 +16,6 @@ public class QuestionService implements IQuestionService{
 
     private int questionIndex = 0;
 
-    private int lastQuestionIndex = 7;
-
     List<Character> characters;
 
     public QuestionService() {
@@ -40,15 +38,14 @@ public class QuestionService implements IQuestionService{
             return questions.get(questionIndex).getQuestionText();
         } else if(question instanceof MultipleChoiceQuestion) {
             setLetterToEarnForQuestion(question, characters.get(questionIndex));
-            return displayMultipleChoiceQuestionWithAnswers(questionIndex);
+            return questions.get(questionIndex).getQuestionText();
         }
         return "Question not found!!";
     }
 
     @Override
-    public boolean getQuizFinished() {
-        int currentIndex = this.questionIndex;
-        if(currentIndex >= 0 && currentIndex < lastQuestionIndex) {
+    public boolean lastQuesiton() {
+        if(this.questionIndex >= 0 && this.questionIndex < this.questions.size() - 1) {
             this.questionIndex +=1;
             return false;
         }
@@ -64,19 +61,6 @@ public class QuestionService implements IQuestionService{
     @Override
     public Character getLetterToEarn() {
         return questions.get(questionIndex).getLetterToEarn();
-    }
-
-    private String displayMultipleChoiceQuestionWithAnswers(int questionIndex){
-        StringBuilder questionWithAnswers = new StringBuilder();
-        questionWithAnswers.append("Question: ").append(questions.get(questionIndex).getQuestionText()).append("\n");
-
-        char option = 'A';
-        for (String answer : questions.get(questionIndex).getQuestionAnswers()) {
-            questionWithAnswers.append(option).append(". ").append(answer).append("\n");
-            option++;
-        }
-
-        return questionWithAnswers.toString();
     }
 
     private void setLetterToEarnForQuestion(IQuestion question, Character character){

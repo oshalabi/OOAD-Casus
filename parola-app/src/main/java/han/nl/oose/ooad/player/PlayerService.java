@@ -2,7 +2,9 @@ package han.nl.oose.ooad.player;
 
 import han.nl.oose.ooad.dummydata.IPlayers;
 import han.nl.oose.ooad.dummydata.Players;
+import han.nl.oose.ooad.exceptions.PlayerNotFoundException;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class PlayerService implements IPlayerService{
@@ -30,12 +32,45 @@ public class PlayerService implements IPlayerService{
     }
 
     @Override
+    public boolean checkPlayerCanPlay(String playerName, int quizPrice) {
+        return this.getPlayerByName(playerName).getCredits() >= quizPrice;
+    }
+
+    @Override
+    public void purchaseCredits(String playerName, int _package) {
+       Player player = this.getPlayerByName(playerName);
+       int credits = player.getCredits();
+       player.setCredits(credits + _package);
+    }
+
+    @Override
+    public int getPlayerCredits(String playerName) {
+        return this.getPlayerByName(playerName).getCredits();
+    }
+
+    @Override
     public boolean checkPlayerPassword(String password) {
         return this.player.getPassword().equals(password);
     }
 
     @Override
     public void addPlayer(String playerName, String password) {
-        players.add(new Player(playerName, password, defaultAmountCredits));
+        List<Player> temPlayers =  this.players;
+        temPlayers.add(new Player(playerName, password, 0, this.defaultAmountCredits));
+        this.players = temPlayers;
     }
+
+    @Override
+    public Player getPlayerByName(String playerName){
+        return  this.players.stream().filter(
+                p -> p.getName().equals(playerName)
+        ).findFirst().orElse(null);
+    }
+
+    @Override
+    public int getPlayerScore(String playerName) {
+        return this.getPlayerByName(playerName).getScore();
+    }
+
+
 }

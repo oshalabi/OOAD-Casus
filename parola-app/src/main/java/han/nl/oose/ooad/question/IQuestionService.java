@@ -1,12 +1,10 @@
 package han.nl.oose.ooad.question;
 
-import java.util.List;
-
 public interface IQuestionService {
 
     String getNextQuestion();
 
-    boolean getQuizFinished();
+    boolean lastQuesiton();
 
     boolean checkAnswer(String answer);
 

@@ -8,7 +8,7 @@ public interface IQuestion {
     List<String> getQuestionAnswers();
 
     Character getLetterToEarn();
-
     void setLetterToEarn(Character character);
+
 
 }

@@ -2,6 +2,7 @@ package han.nl.oose.ooad.quiz;
 
 import han.nl.oose.ooad.dummydata.IMagicWords;
 import han.nl.oose.ooad.dummydata.MagicWords;
+import han.nl.oose.ooad.magicletters.IMagicLetters;
 import han.nl.oose.ooad.quiz.Quiz;
 
 import java.util.ArrayList;
@@ -13,31 +14,29 @@ public class MagicWord {
 
 	private IMagicWords magicWords;
 
-	public MagicWord() {
-		magicLetters = new ArrayList<>();
+	public MagicWord(List<Character> magicLetters) {
 		magicWords = new MagicWords();
+		this.magicLetters = magicLetters;
 	}
 
-	public void createMagicLetter() {
-		magicWords.createWords().stream()
-				.filter(s -> s.length() > 7)
-				.findAny()
-				.ifPresent(word -> {
-					for (char _char : word.toCharArray()) {
-						this.magicLetters.add(_char);
-					}
-				});
-	}
-
-	public boolean submitMagicWord(String magicWord) {
+	public boolean checkWord(String word) {
+		if(onlyShownLetters(word)) {
+			return true;
+		}
 		return false;
 	}
 
 	private boolean onlyShownLetters(String magicWord) {
-		return false;
+		for (int i = 0; i < magicWord.length(); i++) {
+			if (!magicLetters.contains(magicWord.charAt(i))) {
+				return false;
+			}
+		}
+		return true;
 	}
 
-	public List<Character> getMagicLetters() {
-		return magicLetters;
-	}
+//	public List<Character> getMagicLetters() {
+//		return magicLetters.;
+//	}
+
 }

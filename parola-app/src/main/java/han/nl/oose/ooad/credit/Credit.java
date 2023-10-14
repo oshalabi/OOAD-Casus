@@ -2,12 +2,27 @@ package han.nl.oose.ooad.credit;
 
 public class Credit {
 
-	private int _package;
+	private int aantalCredits;
 
-	private float price;
+	private double price;
 
-	public boolean purchase() {
-		return false;
+	public Credit() {
+
 	}
 
+	public int getAantalCredits() {
+		return aantalCredits;
+	}
+
+	public void setAantalCredits(int aantalCredits) {
+		this.aantalCredits = aantalCredits;
+	}
+
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
+	}
 }

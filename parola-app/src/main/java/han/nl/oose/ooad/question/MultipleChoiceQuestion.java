@@ -2,26 +2,29 @@ package han.nl.oose.ooad.question;
 
 import han.nl.oose.ooad.category.Category;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class MultipleChoiceQuestion implements IQuestion {
 
 	private String questionText;
 	private String correctAnswer;
 	private List<String> wrongAnswers;
-
 	private Character letterToEarn;
 	private Category category;
+	private Map<Character, String> answers;
 
 	public MultipleChoiceQuestion(){
 	}
 
 	@Override
 	public boolean checkAnswer(String answer) {
-		return correctAnswer.equals(answer);
-	}
+		if(answer.length() == 1) {
+			Character option = Character.toUpperCase(answer.charAt(0));
+			return this.getAnswersWithOption().get(option).equals(correctAnswer);
+		}
 
+		return correctAnswer.equalsIgnoreCase(answer);
+	}
 	public String getCorrectAnswer() {
 		return correctAnswer;
 	}
@@ -40,14 +43,14 @@ public class MultipleChoiceQuestion implements IQuestion {
 
 	@Override
 	public String getQuestionText() {
-		return questionText;
+		return displayMultipleChoiceQuestionWithAnswers();
 	}
 
 	@Override
 	public List<String> getQuestionAnswers() {
-		List<String> allAnswers;
-		allAnswers = wrongAnswers;
+        List<String> allAnswers = new ArrayList<>(wrongAnswers);
 		allAnswers.add(correctAnswer);
+		Collections.shuffle(allAnswers);
 		return allAnswers;
 	}
 
@@ -59,6 +62,7 @@ public class MultipleChoiceQuestion implements IQuestion {
 		this.category = category;
 	}
 
+	@Override
 	public Character getLetterToEarn() {
 		return letterToEarn;
 	}
@@ -66,5 +70,27 @@ public class MultipleChoiceQuestion implements IQuestion {
 	@Override
 	public void setLetterToEarn(Character letterToEarn) {
 		this.letterToEarn = letterToEarn;
+	}
+
+	private String displayMultipleChoiceQuestionWithAnswers(){
+		StringBuilder questionWithAnswers = new StringBuilder();
+		questionWithAnswers.append("Question: ").append(this.questionText).append("\n");
+		Map<Character, String> answers = this.getAnswersWithOption();
+
+		for (Map.Entry<Character, String> entry : answers.entrySet()) {
+			questionWithAnswers.append(entry.getKey()).append(". ").append(entry.getValue()).append("\n");
+		}
+		return questionWithAnswers.toString();
+	}
+
+	private Map<Character, String> getAnswersWithOption() {
+		this.answers = new HashMap<>();
+		List<String> questionAnswers = getQuestionAnswers();
+		Character option = 'A';
+		for(String answer: questionAnswers) {
+			answers.put(option, answer);
+			option++;
+		}
+		return this.answers;
 	}
 }

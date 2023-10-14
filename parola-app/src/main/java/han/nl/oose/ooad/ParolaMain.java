@@ -12,7 +12,7 @@ public class ParolaMain {
         String playername = scanner.nextLine();
         parola.addPlayer(playername);
 
-        System.out.println("The 8-question quiz starts. Good luck!");
+       // System.out.println("The 8-question quiz starts. Good luck!");
         parola.startQuiz(playername);
         do {
             System.out.println(parola.nextQuestion(playername));

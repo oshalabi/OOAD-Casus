@@ -20,7 +20,9 @@ public class OpenQuestion implements IQuestion {
 	@Override
 	public boolean checkAnswer(String answer) {
         for(String correctAnswer : answers){
-			return answer.equals(correctAnswer);
+			if (answer.equals(correctAnswer)) {
+				return true;
+			}
 		}
 		return false;
 	}
@@ -46,10 +48,12 @@ public class OpenQuestion implements IQuestion {
 		this.questionText = questionText;
 	}
 
+
 	public void setCorrectAnswers(List<String> correctAnswers) {
 		this.answers = correctAnswers;
 	}
 
+	@Override
 	public Character getLetterToEarn() {
 		return letterToEarn;
 	}

@@ -1,11 +1,10 @@
 package han.nl.oose.ooad.controller;
 
-import han.nl.oose.ooad.dummydata.IPlayers;
-import han.nl.oose.ooad.dummydata.Players;
+import han.nl.oose.ooad.credit.CreditsService;
 import han.nl.oose.ooad.player.IPlayerService;
-import han.nl.oose.ooad.player.Player;
 import han.nl.oose.ooad.player.PlayerService;
-import han.nl.oose.ooad.quiz.Quiz;
+import han.nl.oose.ooad.quiz.IQuizService;
+import han.nl.oose.ooad.quiz.QuizService;
 
 import java.util.Scanner;
 
@@ -17,10 +16,15 @@ public class ParolaController {
 
     private final Scanner scanner = new Scanner(System.in);
 
-    private Quiz quiz;
+    private final IQuizService quizService;
 
-    public ParolaController() {
+    private final CreditsService creditsService;
+
+
+    private ParolaController() {
         playerService = new PlayerService();
+        quizService = new QuizService(playerService);
+        creditsService = new CreditsService();
     }
     public static ParolaController getInstance() {
         if(instance == null) {
@@ -29,7 +33,7 @@ public class ParolaController {
         return instance;
     }
     private void register(String playerName) {
-        System.out.println("Please enter you password to make an account for you");
+        System.out.println("Please enter your password to make an account for you");
         System.out.println("Now enter your Password: ");
         String password = this.scanner.nextLine();
         playerService.addPlayer(playerName, password);
@@ -48,7 +52,6 @@ public class ParolaController {
             System.out.println( playerName + " sorry we did not find your account. Please register first");
             register(playerName);
         }
-
     }
     public void startQuiz(String playerName) {
         System.out.println(playerName + " You have logged in successfully");
@@ -57,33 +60,49 @@ public class ParolaController {
         System.out.println("Please Choose now");
         String playerHasChosen = this.scanner.nextLine();
         if(playerHasChosen.equals("1")) {
-            this.quiz = new Quiz(playerName);
+            this.quizService.startQuiz(playerName) ;
         } else if (playerHasChosen.equals("2")) {
-            System.out.println("buy credits");
+            System.out.println(creditsService.getCreditsPackages());
+            System.out.println("Choose Aantal credits that you want to buy");
+            int _package = Integer.parseInt(this.scanner.nextLine());
+            if(this.purchase(_package)) {
+                playerService.purchaseCredits(playerName, _package);
+                System.out.println(playerName + " You have now " + playerService.getPlayerCredits(playerName));
+                System.out.println("Choose 1 to start a quiz");
+                if(this.scanner.nextLine().equals("1")) {
+                    this.quizService.startQuiz(playerName);
+                }else {
+                    System.exit(1);
+                }
+            }
         } else {
             System.out.println("Non valid options please choose again");
+            System.exit(1);
         }
     }
 
     public String nextQuestion(String playerName) {
-        return quiz.getNextQuestion(playerName);
+        return quizService.getNextQuestion(playerName);
     }
 
     public void processAnswer(String playerName, String answer) {
-       this.quiz.processAnswer(playerName, answer);
+       this.quizService.processAnswer(playerName, answer);
     }
 
-    public boolean quizFinished(String playername) {
-        return this.quiz.quizFinished(playername);
+    public boolean quizFinished(String playerName) {
+        return this.quizService.quizFinished(playerName);
     }
 
-    public String getLettersForRightAnswers(String playername) {
-        return null;
+    public String getLettersForRightAnswers(String playerName) {
+        return this.quizService.getLettersForRightAnswers(playerName);
     }
 
-    public int calculateScore(String playername, String word) {
-        return 0;
+    public int calculateScore(String playerName, String word) {
+        return this.quizService.calculateScore(playerName, word);
     }
 
+    private boolean purchase(int _package) {
+        return this.creditsService.purchase(_package);
+    }
 
 }
