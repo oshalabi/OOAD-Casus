@@ -16,7 +16,7 @@ public class Quiz  {
 	private int correctAnswers;
 	private IMagicLetters magicLetters;
 	private final IScore scoreContext;
-
+	private IMagicWord magicWord;
 
 	public Quiz() {
 		questionService = new QuestionService();
@@ -51,9 +51,14 @@ public class Quiz  {
 
 	public int calculateScore(int playerScore, String word) {
 		List<Character> earnedLetters = magicLetters.getEarnedCharacters();
-		MagicWord magicWord = new MagicWord(earnedLetters);
+		this.magicWord = new MagicWord(earnedLetters);
 		if(magicWord.checkWord(word)){
-			return calculateScoreStrategy(playerScore, word);
+			if(magicWord.onlyShownLetters(word)) {
+				return calculateScoreStrategy(playerScore, word);
+			}else {
+				System.out.println("The entered word does not consist of the earned letters");
+			}
+
 		}
 		return playerScore;
 	}

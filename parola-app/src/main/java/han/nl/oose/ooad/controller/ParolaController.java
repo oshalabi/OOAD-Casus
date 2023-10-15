@@ -49,9 +49,13 @@ public class ParolaController {
 
             if (playerService.checkPlayerPassword(playerName, password)){
                 playerService.addPlayer(playerName, password);
+            }else {
+                System.out.println( playerName + " sorry we did not find your account. Please register with new player name");
+                System.out.println("Enter your player name: ");
+                String newPlayerName = scanner.nextLine();
+                addPlayer(newPlayerName);
             }
         }else {
-            System.out.println( playerName + " sorry we did not find your account. Please register first");
             register(playerName);
         }
     }
