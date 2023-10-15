@@ -2,18 +2,14 @@ package han.nl.oose.ooad.player;
 
 import han.nl.oose.ooad.dummydata.IPlayers;
 import han.nl.oose.ooad.dummydata.Players;
-import han.nl.oose.ooad.exceptions.PlayerNotFoundException;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class PlayerService implements IPlayerService{
 
     private final IPlayers dummyPlayers;
-
     private List<Player> players;
-    private Player player;
-    private final int defaultAmountCredits = 1000;
+    private final int DEFAULTAMOUNTCREDITS = 1000;
 
     public PlayerService() {
         dummyPlayers = new Players();
@@ -24,7 +20,6 @@ public class PlayerService implements IPlayerService{
     public boolean checkPlayerByNameExists(String playerName) {
         for (Player player : players) {
             if (player.getName().equals(playerName)) {
-                this.player = player;
                  return true;
             }
         }
@@ -37,10 +32,10 @@ public class PlayerService implements IPlayerService{
     }
 
     @Override
-    public void purchaseCredits(String playerName, int _package) {
+    public void purchaseCredits(String playerName, int creditPackage) {
        Player player = this.getPlayerByName(playerName);
        int credits = player.getCredits();
-       player.setCredits(credits + _package);
+       player.setCredits(credits + creditPackage);
     }
 
     @Override
@@ -49,14 +44,14 @@ public class PlayerService implements IPlayerService{
     }
 
     @Override
-    public boolean checkPlayerPassword(String password) {
-        return this.player.getPassword().equals(password);
+    public boolean checkPlayerPassword(String playerName, String password) {
+        return this.getPlayerByName(playerName).getPassword().equals(password);
     }
 
     @Override
     public void addPlayer(String playerName, String password) {
         List<Player> temPlayers =  this.players;
-        temPlayers.add(new Player(playerName, password, 0, this.defaultAmountCredits));
+        temPlayers.add(new Player(playerName, password,  this.DEFAULTAMOUNTCREDITS));
         this.players = temPlayers;
     }
 

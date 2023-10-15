@@ -2,14 +2,15 @@ package han.nl.oose.ooad.credit;
 
 import han.nl.oose.ooad.dummydata.Credits;
 import han.nl.oose.ooad.dummydata.ICredits;
+import han.nl.oose.ooad.player.IPlayerService;
 
 import java.util.List;
+
 
 public class CreditsService implements ICreditsService {
     private List<Credit> credits;
     private ICredits dummyCredits;
-
-    public CreditsService() {
+    public CreditsService(IPlayerService playerService) {
         dummyCredits = new Credits();
         this.credits = dummyCredits.createPackages();
     }
@@ -29,16 +30,13 @@ public class CreditsService implements ICreditsService {
         return creditsInfo.toString();
     }
 
-    private Credit getCreditByPackage(int _package) {
-        return credits.stream().filter(credit -> credit.getAantalCredits() ==_package).findFirst().orElse(null);
-    }
-
-
     @Override
     public boolean purchase(int _package) {
         // TODO
         // implement payment method
         return this.getCreditByPackage(_package) != null;
     }
-
+    private Credit getCreditByPackage(int _package) {
+        return credits.stream().filter(credit -> credit.getAantalCredits() ==_package).findFirst().orElse(null);
+    }
 }

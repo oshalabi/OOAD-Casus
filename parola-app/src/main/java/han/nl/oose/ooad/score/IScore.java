@@ -1,9 +1,7 @@
 package han.nl.oose.ooad.score;
 
 public interface IScore {
-
-	public abstract void displayScore();
-
-	public abstract int calculateScore();
-
+    void setStrategy(IScoreStrategy score);
+    int calculateScore(int score);
 }
+

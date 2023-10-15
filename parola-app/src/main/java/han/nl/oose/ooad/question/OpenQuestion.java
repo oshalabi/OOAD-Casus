@@ -1,6 +1,5 @@
 package han.nl.oose.ooad.question;
 
-import han.nl.oose.ooad.category.Category;
 
 import java.util.List;
 
@@ -12,7 +11,7 @@ public class OpenQuestion implements IQuestion {
 
 	private Character letterToEarn;
 
-	private Category category;
+	private String category;
 
 	public OpenQuestion() {
 	}
@@ -26,11 +25,11 @@ public class OpenQuestion implements IQuestion {
 		}
 		return false;
 	}
-	public Category getCategory() {
+	public String getCategory() {
 		return category;
 	}
 
-	public void setCategory(Category category) {
+	public void setCategory(String category) {
 		this.category = category;
 	}
 
@@ -48,7 +47,6 @@ public class OpenQuestion implements IQuestion {
 		this.questionText = questionText;
 	}
 
-
 	public void setCorrectAnswers(List<String> correctAnswers) {
 		this.answers = correctAnswers;
 	}
@@ -57,7 +55,6 @@ public class OpenQuestion implements IQuestion {
 	public Character getLetterToEarn() {
 		return letterToEarn;
 	}
-
 
 	@Override
 	public void setLetterToEarn(Character letterToEarn) {

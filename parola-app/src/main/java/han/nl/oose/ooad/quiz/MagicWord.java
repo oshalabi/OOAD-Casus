@@ -12,31 +12,22 @@ public class MagicWord {
 
 	private List<Character> magicLetters;
 
-	private IMagicWords magicWords;
-
 	public MagicWord(List<Character> magicLetters) {
-		magicWords = new MagicWords();
 		this.magicLetters = magicLetters;
 	}
 
 	public boolean checkWord(String word) {
-		if(onlyShownLetters(word)) {
-			return true;
-		}
-		return false;
+		//TODO
+		// check word using an extern word library
+		return onlyShownLetters(word);
 	}
 
-	private boolean onlyShownLetters(String magicWord) {
-		for (int i = 0; i < magicWord.length(); i++) {
-			if (!magicLetters.contains(magicWord.charAt(i))) {
+	private boolean onlyShownLetters(String word) {
+		for (int i = 0; i < word.length(); i++) {
+			if (!magicLetters.contains(word.charAt(i))) {
 				return false;
 			}
 		}
 		return true;
 	}
-
-//	public List<Character> getMagicLetters() {
-//		return magicLetters.;
-//	}
-
 }

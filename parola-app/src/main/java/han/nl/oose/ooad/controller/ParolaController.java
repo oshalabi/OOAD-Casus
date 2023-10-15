@@ -1,11 +1,13 @@
 package han.nl.oose.ooad.controller;
 
 import han.nl.oose.ooad.credit.CreditsService;
+import han.nl.oose.ooad.credit.ICreditsService;
 import han.nl.oose.ooad.player.IPlayerService;
 import han.nl.oose.ooad.player.PlayerService;
 import han.nl.oose.ooad.quiz.IQuizService;
 import han.nl.oose.ooad.quiz.QuizService;
 
+import java.util.List;
 import java.util.Scanner;
 
 
@@ -18,13 +20,13 @@ public class ParolaController {
 
     private final IQuizService quizService;
 
-    private final CreditsService creditsService;
+    private final ICreditsService creditsService;
 
 
     private ParolaController() {
         playerService = new PlayerService();
         quizService = new QuizService(playerService);
-        creditsService = new CreditsService();
+        creditsService = new CreditsService(playerService);
     }
     public static ParolaController getInstance() {
         if(instance == null) {
@@ -45,7 +47,7 @@ public class ParolaController {
             System.out.println("Enter your Password: ");
             String password = scanner.nextLine();
 
-            if (playerService.checkPlayerPassword(password)){
+            if (playerService.checkPlayerPassword(playerName, password)){
                 playerService.addPlayer(playerName, password);
             }
         }else {
@@ -55,30 +57,49 @@ public class ParolaController {
     }
     public void startQuiz(String playerName) {
         System.out.println(playerName + " You have logged in successfully");
+        displayMenuOptions();
+
+        String playerChoice = scanner.nextLine();
+        switch (playerChoice) {
+            case "1":
+                quizService.startQuiz(playerName);
+                break;
+            case "2":
+                handleCreditPurchase(playerName);
+                break;
+            default:
+                System.out.println("Invalid option. Please choose again.");
+                break;
+        }
+    }
+    private void handleCreditPurchase(String playerName) {
+        System.out.println(creditsService.getCreditsPackages());
+        System.out.println("Choose the number of credits that you want to buy");
+        int creditPackage = Integer.parseInt(scanner.nextLine());
+        if(creditsService.purchase(creditPackage)) {
+            this.playerService.purchaseCredits(playerName, creditPackage);
+            System.out.println(playerName + " You now have " + this.playerService.getPlayerCredits(playerName) + " credits.");
+            askToStartQuiz(playerName);
+        } else {
+            System.out.println("You cant buy this creditPackage: " + creditPackage);
+            handleCreditPurchase(playerName);
+        }
+    }
+    private void askToStartQuiz(String playerName) {
+        System.out.println("Choose 1 to start a quiz");
+
+        if (scanner.nextLine().equals("1")) {
+            System.out.println("The 8-question quiz starts. Good luck!");
+            quizService.startQuiz(playerName);
+        } else {
+            System.out.println("Invalid input the quiz wil stop now.");
+            System.exit(1);
+        }
+    }
+    private void displayMenuOptions() {
         System.out.println("Choose 1 to start a quiz");
         System.out.println("Choose 2 to buy credits");
         System.out.println("Please Choose now");
-        String playerHasChosen = this.scanner.nextLine();
-        if(playerHasChosen.equals("1")) {
-            this.quizService.startQuiz(playerName) ;
-        } else if (playerHasChosen.equals("2")) {
-            System.out.println(creditsService.getCreditsPackages());
-            System.out.println("Choose Aantal credits that you want to buy");
-            int _package = Integer.parseInt(this.scanner.nextLine());
-            if(this.purchase(_package)) {
-                playerService.purchaseCredits(playerName, _package);
-                System.out.println(playerName + " You have now " + playerService.getPlayerCredits(playerName));
-                System.out.println("Choose 1 to start a quiz");
-                if(this.scanner.nextLine().equals("1")) {
-                    this.quizService.startQuiz(playerName);
-                }else {
-                    System.exit(1);
-                }
-            }
-        } else {
-            System.out.println("Non valid options please choose again");
-            System.exit(1);
-        }
     }
 
     public String nextQuestion(String playerName) {
@@ -93,16 +114,11 @@ public class ParolaController {
         return this.quizService.quizFinished(playerName);
     }
 
-    public String getLettersForRightAnswers(String playerName) {
+    public List<Character> getLettersForRightAnswers(String playerName) {
         return this.quizService.getLettersForRightAnswers(playerName);
     }
-
     public int calculateScore(String playerName, String word) {
         return this.quizService.calculateScore(playerName, word);
-    }
-
-    private boolean purchase(int _package) {
-        return this.creditsService.purchase(_package);
     }
 
 }

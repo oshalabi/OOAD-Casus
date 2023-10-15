@@ -4,7 +4,7 @@ public interface IQuestionService {
 
     String getNextQuestion();
 
-    boolean lastQuesiton();
+    boolean lastQuestion();
 
     boolean checkAnswer(String answer);
 

@@ -10,9 +10,9 @@ public class Questions implements IQuestions {
     private final List<IQuestion> dummyQuestions;
     private final IQuestionFactory questionFactory;
 
-    public Questions() {
+    public Questions(IQuestionFactory questionFactory) {
         dummyQuestions = new ArrayList<>();
-        questionFactory = new QuestionFactory();
+        this.questionFactory = questionFactory;
     }
 
     @Override

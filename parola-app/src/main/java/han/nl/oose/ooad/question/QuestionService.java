@@ -10,25 +10,19 @@ import java.util.List;
 public class QuestionService implements IQuestionService{
 
     private IQuestions iQuestions;
+    private IQuestionFactory questionFactory;
     private List<IQuestion> questions;
-
     private IMagicLetters magicLetters;
-
     private int questionIndex = 0;
-
     List<Character> characters;
 
     public QuestionService() {
-        iQuestions = new Questions();
+        this.questionFactory = new QuestionFactory();
+        iQuestions = new Questions(questionFactory);
         this.questions = iQuestions.createDummyQuestions();
         this.magicLetters = new MagicLetters();
         this.characters = magicLetters.getLetterForQuestion();
     }
-
-    public List<IQuestion> getDummyQuestion() {
-        return questions;
-    }
-
 
     @Override
     public String getNextQuestion() {
@@ -44,7 +38,7 @@ public class QuestionService implements IQuestionService{
     }
 
     @Override
-    public boolean lastQuesiton() {
+    public boolean lastQuestion() {
         if(this.questionIndex >= 0 && this.questionIndex < this.questions.size() - 1) {
             this.questionIndex +=1;
             return false;

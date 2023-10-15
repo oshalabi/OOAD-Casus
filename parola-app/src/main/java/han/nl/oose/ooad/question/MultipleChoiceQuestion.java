@@ -1,6 +1,6 @@
 package han.nl.oose.ooad.question;
 
-import han.nl.oose.ooad.category.Category;
+
 
 import java.util.*;
 
@@ -10,7 +10,7 @@ public class MultipleChoiceQuestion implements IQuestion {
 	private String correctAnswer;
 	private List<String> wrongAnswers;
 	private Character letterToEarn;
-	private Category category;
+	private String category;
 	private Map<Character, String> answers;
 
 	public MultipleChoiceQuestion(){
@@ -43,7 +43,14 @@ public class MultipleChoiceQuestion implements IQuestion {
 
 	@Override
 	public String getQuestionText() {
-		return displayMultipleChoiceQuestionWithAnswers();
+		StringBuilder questionWithAnswers = new StringBuilder();
+		questionWithAnswers.append("Question: ").append(this.questionText).append("\n");
+		Map<Character, String> answers = this.getAnswersWithOption();
+
+		for (Map.Entry<Character, String> entry : answers.entrySet()) {
+			questionWithAnswers.append(entry.getKey()).append(". ").append(entry.getValue()).append("\n");
+		}
+		return questionWithAnswers.toString();
 	}
 
 	@Override
@@ -58,7 +65,7 @@ public class MultipleChoiceQuestion implements IQuestion {
 		this.questionText = questionText;
 	}
 
-	public void setCategory(Category category) {
+	public void setCategory(String category) {
 		this.category = category;
 	}
 
@@ -70,17 +77,6 @@ public class MultipleChoiceQuestion implements IQuestion {
 	@Override
 	public void setLetterToEarn(Character letterToEarn) {
 		this.letterToEarn = letterToEarn;
-	}
-
-	private String displayMultipleChoiceQuestionWithAnswers(){
-		StringBuilder questionWithAnswers = new StringBuilder();
-		questionWithAnswers.append("Question: ").append(this.questionText).append("\n");
-		Map<Character, String> answers = this.getAnswersWithOption();
-
-		for (Map.Entry<Character, String> entry : answers.entrySet()) {
-			questionWithAnswers.append(entry.getKey()).append(". ").append(entry.getValue()).append("\n");
-		}
-		return questionWithAnswers.toString();
 	}
 
 	private Map<Character, String> getAnswersWithOption() {

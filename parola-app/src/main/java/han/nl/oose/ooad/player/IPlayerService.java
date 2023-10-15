@@ -3,7 +3,7 @@ package han.nl.oose.ooad.player;
 
 public interface IPlayerService {
     boolean checkPlayerByNameExists(String playerName);
-    boolean checkPlayerPassword(String password);
+    boolean checkPlayerPassword(String playerName, String password);
     void addPlayer(String playerName, String password);
     Player getPlayerByName(String playerName);
     int getPlayerScore(String playerName);

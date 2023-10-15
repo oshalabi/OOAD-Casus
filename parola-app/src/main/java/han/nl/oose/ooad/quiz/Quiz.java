@@ -4,32 +4,24 @@ import han.nl.oose.ooad.magicletters.IMagicLetters;
 import han.nl.oose.ooad.magicletters.MagicLetters;
 import han.nl.oose.ooad.question.IQuestionService;
 import han.nl.oose.ooad.question.QuestionService;
-import han.nl.oose.ooad.score.IScoreStrategy;
+import han.nl.oose.ooad.score.IScore;
 import han.nl.oose.ooad.score.ScoreContext;
 import han.nl.oose.ooad.score.correctAnswersAndMagicWordStrategy;
 
-
-import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
+
 
 public class Quiz  {
 	private final IQuestionService questionService;
 	private int correctAnswers;
-
 	private IMagicLetters magicLetters;
-
-	private final ScoreContext scoreContext;
+	private final IScore scoreContext;
 
 
 	public Quiz() {
-		magicLetters = new MagicLetters();
 		questionService = new QuestionService();
+		magicLetters = new MagicLetters();
 		scoreContext = new ScoreContext();
-	}
-
-	public void startQuiz() {
-
 	}
 
 	public String getNextQuestion() {
@@ -37,7 +29,7 @@ public class Quiz  {
 	}
 
 	public boolean quizFinished() {
-		return questionService.lastQuesiton();
+		return questionService.lastQuestion();
 	}
 
 	public boolean checkAnswer(String answer) {
@@ -53,24 +45,27 @@ public class Quiz  {
 		}
 	}
 
-	public Character getLetterToEarn(){
+	private Character getLetterToEarn(){
 		return this.questionService.getLetterToEarn();
 	}
-	public int calculateScore(int score, String word) {
-		MagicWord magicWord = new MagicWord(magicLetters.getEarnedCharacters());
+
+	public int calculateScore(int playerScore, String word) {
+		List<Character> earnedLetters = magicLetters.getEarnedCharacters();
+		MagicWord magicWord = new MagicWord(earnedLetters);
 		if(magicWord.checkWord(word)){
-			return calculateScoreStrategy(score, word);
+			return calculateScoreStrategy(playerScore, word);
 		}
-		return score;
+		return playerScore;
 	}
 
-	private int calculateScoreStrategy(int score, String magicWord) {
-		scoreContext.setStrategy(new correctAnswersAndMagicWordStrategy(correctAnswers, magicWord));
-		return scoreContext.calculateScoreStrategy(score);
+	private int calculateScoreStrategy(int playerScore, String word) {
+		scoreContext.setStrategy(new correctAnswersAndMagicWordStrategy(correctAnswers, word));
+		return scoreContext.calculateScore(playerScore);
 	}
 
-	public String getMagicLetters(){
-		return this.magicLetters.getEarnedCharacters().toString();
+	public List<Character> getMagicLetters(){
+		return this.magicLetters.getEarnedCharacters();
 	}
+
 
 }

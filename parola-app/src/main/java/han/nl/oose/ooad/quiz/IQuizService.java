@@ -2,6 +2,8 @@ package han.nl.oose.ooad.quiz;
 
 import han.nl.oose.ooad.player.Player;
 
+import java.util.List;
+
 public interface IQuizService {
 
     void startQuiz(String playerName);
@@ -12,7 +14,7 @@ public interface IQuizService {
 
     boolean quizFinished(String playerName);
 
-    String getLettersForRightAnswers(String playerName);
+    List<Character> getLettersForRightAnswers(String playerName);
 
     int calculateScore(String playerName, String word);
 }
