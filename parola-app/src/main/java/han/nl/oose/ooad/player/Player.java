@@ -7,11 +7,14 @@ public class Player {
     private int credits;
     private int score;
 
-    public  Player(String name, String password, int credits) {
+    private boolean isAdmin;
+
+    public  Player(String name, String password, int credits, boolean isAdmin) {
         this.name = name;
         this.password = password;
         this.credits = credits;
         this.score = 0;
+        this.isAdmin = isAdmin;
     }
 
     public String getName() {
@@ -29,8 +32,11 @@ public class Player {
     public String getPassword() {
         return password;
     }
-
     public int getScore() {
         return score;
+    }
+
+    public boolean getIsAdmin() {
+        return this.isAdmin;
     }
 }

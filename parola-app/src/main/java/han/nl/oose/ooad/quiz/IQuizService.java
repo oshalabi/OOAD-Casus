@@ -1,8 +1,7 @@
 package han.nl.oose.ooad.quiz;
 
-import han.nl.oose.ooad.player.Player;
-
 import java.util.List;
+import java.util.Scanner;
 
 public interface IQuizService {
 
@@ -17,4 +16,6 @@ public interface IQuizService {
     List<Character> getLettersForRightAnswers(String playerName);
 
     int calculateScore(String playerName, String word);
+
+    void handleCreditPurchase(Scanner scanner, String playerName);
 }

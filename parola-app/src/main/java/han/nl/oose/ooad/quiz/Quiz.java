@@ -1,11 +1,12 @@
 package han.nl.oose.ooad.quiz;
 
+import han.nl.oose.ooad.language.LanguageContext;
 import han.nl.oose.ooad.magicletters.IMagicLetters;
 import han.nl.oose.ooad.magicletters.MagicLetters;
 import han.nl.oose.ooad.question.IQuestionService;
 import han.nl.oose.ooad.question.QuestionService;
-import han.nl.oose.ooad.score.IScore;
-import han.nl.oose.ooad.score.ScoreContext;
+import han.nl.oose.ooad.score.IScoreContext;
+import han.nl.oose.ooad.score.ScoreContextContext;
 import han.nl.oose.ooad.score.correctAnswersAndMagicWordStrategy;
 
 import java.util.List;
@@ -13,15 +14,17 @@ import java.util.List;
 
 public class Quiz  {
 	private final IQuestionService questionService;
+	private LanguageContext languageContext;
 	private int correctAnswers;
 	private IMagicLetters magicLetters;
-	private final IScore scoreContext;
+	private final IScoreContext scoreContext;
 	private IMagicWord magicWord;
 
-	public Quiz() {
-		questionService = new QuestionService();
+	public Quiz(LanguageContext languageContext) {
+		this.languageContext = languageContext;
+		questionService = new QuestionService(languageContext);
 		magicLetters = new MagicLetters();
-		scoreContext = new ScoreContext();
+		scoreContext = new ScoreContextContext();
 	}
 
 	public String getNextQuestion() {
@@ -41,7 +44,7 @@ public class Quiz  {
 			Character earnedCharacter = getLetterToEarn();
 			this.magicLetters.addEarnedCharacter(getLetterToEarn());
 			this.correctAnswers +=1;
-			System.out.println("You answer is correct and you have earned this letter: " + earnedCharacter);
+			System.out.println(languageContext.getMessage("yourAnswerIsCorrect")+ " " + earnedCharacter);
 		}
 	}
 
@@ -56,7 +59,7 @@ public class Quiz  {
 			if(magicWord.onlyShownLetters(word)) {
 				return calculateScoreStrategy(playerScore, word);
 			}else {
-				System.out.println("The entered word does not consist of the earned letters");
+				System.out.println(languageContext.getMessage("theEnteredWordDoesNot"));
 			}
 
 		}

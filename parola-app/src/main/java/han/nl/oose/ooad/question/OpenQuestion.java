@@ -1,7 +1,9 @@
 package han.nl.oose.ooad.question;
 
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class OpenQuestion implements IQuestion {
 
@@ -12,6 +14,7 @@ public class OpenQuestion implements IQuestion {
 	private Character letterToEarn;
 
 	private String category;
+
 
 	public OpenQuestion() {
 	}
@@ -34,8 +37,8 @@ public class OpenQuestion implements IQuestion {
 	}
 
 	@Override
-	public String getQuestionText() {
-		return questionText;
+	public String getQuestionForQuiz() {
+		return "Question: " + questionText;
 	}
 
 	@Override
@@ -59,5 +62,20 @@ public class OpenQuestion implements IQuestion {
 	@Override
 	public void setLetterToEarn(Character letterToEarn) {
 		this.letterToEarn = letterToEarn;
+	}
+
+	@Override
+	public String getQuestionWithAnswersForDashboard() {
+        return getQuestionForQuiz() + "\n" +
+				QuestionUtil.formatAnswersWithOption(getAnswersWithOption());
+	}
+	private Map<Character, String> getAnswersWithOption() {
+		Map<Character, String> answers = new HashMap<>();
+		Character option = 'A';
+		for(int i=0; i< getQuestionAnswers().size(); i++){
+			answers.put(option, getQuestionAnswers().get(i));
+			option++;
+		}
+		return answers;
 	}
 }

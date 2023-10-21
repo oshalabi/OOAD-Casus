@@ -20,7 +20,7 @@ public class MultipleChoiceQuestion implements IQuestion {
 	public boolean checkAnswer(String answer) {
 		if(answer.length() == 1) {
 			Character option = Character.toUpperCase(answer.charAt(0));
-			return this.getAnswersWithOption().get(option).equals(correctAnswer);
+			answer = this.answers.get(option);
 		}
 
 		return correctAnswer.equalsIgnoreCase(answer);
@@ -41,18 +41,17 @@ public class MultipleChoiceQuestion implements IQuestion {
 		this.wrongAnswers = wrongAnswers;
 	}
 
-	@Override
-	public String getQuestionText() {
-		StringBuilder questionWithAnswers = new StringBuilder();
-		questionWithAnswers.append("Question: ").append(this.questionText).append("\n");
-		Map<Character, String> answers = this.getAnswersWithOption();
 
-		for (Map.Entry<Character, String> entry : answers.entrySet()) {
-			questionWithAnswers.append(entry.getKey()).append(". ").append(entry.getValue()).append("\n");
-		}
-		return questionWithAnswers.toString();
+	@Override
+	public String getQuestionForQuiz() {
+        return "Question: " + this.questionText + "\n" +
+				QuestionUtil.formatAnswersWithOption(this.getAnswersWithOption());
 	}
 
+	@Override
+	public String getQuestionWithAnswersForDashboard() {
+		return getQuestionForQuiz();
+	}
 	@Override
 	public List<String> getQuestionAnswers() {
         List<String> allAnswers = new ArrayList<>(wrongAnswers);
@@ -81,7 +80,7 @@ public class MultipleChoiceQuestion implements IQuestion {
 
 	private Map<Character, String> getAnswersWithOption() {
 		this.answers = new HashMap<>();
-		List<String> questionAnswers = getQuestionAnswers();
+		List<String> questionAnswers = this.getQuestionAnswers();
 		Character option = 'A';
 		for(String answer: questionAnswers) {
 			answers.put(option, answer);

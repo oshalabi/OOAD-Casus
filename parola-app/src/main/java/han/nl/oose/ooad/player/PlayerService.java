@@ -51,7 +51,7 @@ public class PlayerService implements IPlayerService{
     @Override
     public void addPlayer(String playerName, String password) {
         List<Player> temPlayers =  this.players;
-        temPlayers.add(new Player(playerName, password,  this.DEFAULTAMOUNTCREDITS));
+        temPlayers.add(new Player(playerName, password,  this.DEFAULTAMOUNTCREDITS, false));
         this.players = temPlayers;
     }
 

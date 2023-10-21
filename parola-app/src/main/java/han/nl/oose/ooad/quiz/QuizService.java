@@ -2,6 +2,7 @@ package han.nl.oose.ooad.quiz;
 
 import han.nl.oose.ooad.credit.CreditsService;
 import han.nl.oose.ooad.credit.ICreditsService;
+import han.nl.oose.ooad.language.LanguageContext;
 import han.nl.oose.ooad.player.IPlayerService;
 import han.nl.oose.ooad.player.Player;
 
@@ -11,12 +12,15 @@ import java.util.Scanner;
 
 
 public class QuizService implements IQuizService {
+
+    private LanguageContext languageContext;
     private final IPlayerService playerService;
     private final HashMap<Quiz, Player> quizPlayerMap;
     private ICreditsService creditsService;
 
     private final int QUIZPRICE = 40;
-    public QuizService(IPlayerService playerService) {
+    public QuizService(IPlayerService playerService, LanguageContext languageContext) {
+        this.languageContext = languageContext;
         this.playerService = playerService;
         quizPlayerMap = new HashMap<>();
         creditsService = new CreditsService(playerService);
@@ -26,12 +30,12 @@ public class QuizService implements IQuizService {
     public void startQuiz(String playerName) {
         boolean checkPlayerCanPlay = playerService.checkPlayerCanPlay(playerName, this.QUIZPRICE);
         if(checkPlayerCanPlay){
-            quizPlayerMap.put(new Quiz(), this.playerService.getPlayerByName(playerName));
+            quizPlayerMap.put(new Quiz(languageContext), this.playerService.getPlayerByName(playerName));
         }else {
-            System.out.println(playerName + " You don't have enough credits to start a quiz");
-            System.out.println("For this quiz you have to pay: " + QUIZPRICE + " credits.");
+            System.out.println(playerName + " " + languageContext.getMessage("notEnoughCredits"));
+            System.out.println(languageContext.getMessage("quizPayment") + ": " + QUIZPRICE + languageContext.getMessage("credits") + " .");
             Scanner scanner = new Scanner(System.in);
-            System.out.println("Choose 1 to buy credits");
+            System.out.println(languageContext.getMessage("choose1ToBuyCredits"));
             String playerChoice = scanner.nextLine();
             if(playerChoice.equals("1")) {
                 handleCreditPurchase(scanner, playerName);
@@ -39,18 +43,19 @@ public class QuizService implements IQuizService {
         }
     }
 
-    private void handleCreditPurchase(Scanner scanner, String playerName) {
+    @Override
+    public void handleCreditPurchase(Scanner scanner, String playerName) {
         System.out.println(creditsService.getCreditsPackages());
-        System.out.println("Choose the number of credits that you want to buy");
+        System.out.println(languageContext.getMessage("chooseCreditPackage"));
         int creditPackage = Integer.parseInt(scanner.nextLine());
         if(creditsService.purchase(creditPackage)) {
             this.playerService.purchaseCredits(playerName, creditPackage);
-            System.out.println(playerName + " You now have " + this.playerService.getPlayerCredits(playerName) + " credits.");
+            System.out.println(playerName + languageContext.getMessage("youHaveNow") + this.playerService.getPlayerCredits(playerName) + " credits.");
             askToStartQuiz(scanner, playerName);
         } else {
-            System.out.println("You can't buy this creditPackage: " + creditPackage);
-            System.out.println("Please choose 1 to try again ");
-            System.out.println("Or choose 2 to exit the app ");
+            System.out.println(languageContext.getMessage("youCannotBuyThisPackage") + ": " + creditPackage);
+            System.out.println(languageContext.getMessage("choose1ToTryAgain"));
+            System.out.println(languageContext.getMessage("chooseToExist"));
             String playerChoice = scanner.nextLine();
             if(playerChoice.equals("1")){
                 handleCreditPurchase(scanner, playerName);
@@ -101,13 +106,13 @@ public class QuizService implements IQuizService {
     private int getPlayerScore(String playerName) {return this.playerService.getPlayerScore(playerName);}
 
     private void askToStartQuiz(Scanner scanner,String playerName) {
-        System.out.println("Choose 1 to start a quiz");
+        System.out.println(languageContext.getMessage("choose1StartQuiz"));
 
         if (scanner.nextLine().equals("1")) {
-            System.out.println("The 8-question quiz starts. Good luck!");
+            System.out.println(languageContext.getMessage("goodLuck"));
             startQuiz(playerName);
         } else {
-            System.out.println("Invalid input the quiz wil stop now.");
+            System.out.println(languageContext.getMessage("invalid"));
             System.exit(1);
         }
     }

@@ -36,7 +36,7 @@ public class MagicLetters implements IMagicLetters {
 
     @Override
     public void addEarnedCharacter(Character earnedCharacter) {
-        this.earnedCharacters.add(earnedCharacter);
+        this.earnedCharacters.add(Character.toLowerCase(earnedCharacter));
     }
 
     @Override

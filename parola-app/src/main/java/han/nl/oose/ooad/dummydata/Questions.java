@@ -57,20 +57,12 @@ public class Questions implements IQuestions {
     }
 
 
-    private MultipleChoiceQuestion createMultiChoceQuestion(String questionText, String correctAnswer, List<String> wrongAnswers) {
-        MultipleChoiceQuestion multipleChoiceQuestion = (MultipleChoiceQuestion) questionFactory.createQuestion(0);
-        multipleChoiceQuestion.setQuestionText(questionText);
-        multipleChoiceQuestion.setCorrectAnswer(correctAnswer);
-        multipleChoiceQuestion.setWrongAnswers(wrongAnswers);
-        return multipleChoiceQuestion;
+    private IQuestion createMultiChoceQuestion(String questionText, String correctAnswer, List<String> wrongAnswers) {
+        return QuestionUtil.createQuestion(0, questionText, correctAnswer, wrongAnswers);
     }
 
-    private OpenQuestion createOpenQuestion(String questionText, List<String> correctAnswers) {
-        OpenQuestion openQuestion = (OpenQuestion) questionFactory.createQuestion(1);
-        openQuestion.setQuestionText(questionText);
-        openQuestion.setCorrectAnswers(correctAnswers);
-
-        return openQuestion;
+    private IQuestion createOpenQuestion(String questionText, List<String> correctAnswers) {
+        return QuestionUtil.createQuestion(1, questionText, null, correctAnswers);
     }
 
 }
