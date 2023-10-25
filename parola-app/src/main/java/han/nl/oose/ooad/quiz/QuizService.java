@@ -18,6 +18,7 @@ public class QuizService implements IQuizService {
     private final HashMap<Quiz, Player> quizPlayerMap;
     private ICreditsService creditsService;
 
+
     private final int QUIZPRICE = 40;
     public QuizService(IPlayerService playerService, LanguageContext languageContext) {
         this.languageContext = languageContext;

@@ -14,14 +14,15 @@ import java.util.List;
 
 public class Quiz  {
 	private final IQuestionService questionService;
-	private LanguageContext languageContext;
+	private final LanguageContext languageContext;
 	private int correctAnswers;
-	private IMagicLetters magicLetters;
+	private final IMagicLetters magicLetters;
 	private final IScoreContext scoreContext;
 	private IMagicWord magicWord;
-
+	private final QuizTimer quizTimer;
 	public Quiz(LanguageContext languageContext) {
 		this.languageContext = languageContext;
+		quizTimer = new QuizTimer();
 		questionService = new QuestionService(languageContext);
 		magicLetters = new MagicLetters();
 		scoreContext = new ScoreContextContext();
@@ -32,7 +33,11 @@ public class Quiz  {
 	}
 
 	public boolean quizFinished() {
-		return questionService.lastQuestion();
+		if(questionService.lastQuestion()) {
+			quizTimer.stopQuizTimer();
+			return true;
+		}
+		return false;
 	}
 
 	public boolean checkAnswer(String answer) {
@@ -67,7 +72,8 @@ public class Quiz  {
 	}
 
 	private int calculateScoreStrategy(int playerScore, String word) {
-		scoreContext.setStrategy(new correctAnswersAndMagicWordStrategy(correctAnswers, word));
+		long timeTaken = quizTimer.getTimeTakenToCompleteQuiz();
+		scoreContext.setStrategy(new correctAnswersAndMagicWordStrategy(correctAnswers, word, timeTaken));
 		return scoreContext.calculateScore(playerScore);
 	}
 
