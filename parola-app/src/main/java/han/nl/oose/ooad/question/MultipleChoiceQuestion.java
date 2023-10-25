@@ -44,7 +44,7 @@ public class MultipleChoiceQuestion implements IQuestion {
 
 	@Override
 	public String getQuestionForQuiz() {
-        return "Question: " + this.questionText + "\n" +
+        return ": " + this.questionText + "\n" +
 				QuestionUtil.formatAnswersWithOption(this.getAnswersWithOption());
 	}
 

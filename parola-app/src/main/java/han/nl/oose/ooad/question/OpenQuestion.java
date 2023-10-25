@@ -38,7 +38,7 @@ public class OpenQuestion implements IQuestion {
 
 	@Override
 	public String getQuestionForQuiz() {
-		return "Question: " + questionText;
+		return ": " + questionText;
 	}
 
 	@Override

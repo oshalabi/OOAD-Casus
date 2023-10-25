@@ -2,13 +2,15 @@ package han.nl.oose.ooad;
 
 import java.util.Scanner;
 import han.nl.oose.ooad.controller.ParolaController;
+import han.nl.oose.ooad.language.LanguageContext;
 
 public class ParolaMain {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         ParolaController parola = ParolaController.getInstance();
-
-        System.out.println("Enter your player name: ");
+        System.out.println("Welcome to the Parola App!");
+        LanguageContext languageContext = parola.chooseLanguage();
+        System.out.println(languageContext.getMessage("yourName") + ": ");
         String playername = scanner.nextLine();
         parola.addPlayer(playername);
 
@@ -16,17 +18,17 @@ public class ParolaMain {
         parola.startQuiz(playername);
         do {
             System.out.println(parola.nextQuestion(playername));
-            System.out.print("Give your answer to this question: ");
+            System.out.print(languageContext.getMessage("yourAnswer") + ": ");
             String answer = scanner.nextLine();
             parola.processAnswer(playername, answer);
         } while (!parola.quizFinished(playername));
 
-        System.out.println("You've earned the following letters: " + parola.getLettersForRightAnswers(playername));
-        System.out.print("Make a word, as long as possible, that contains these letters: ");
+        System.out.println(languageContext.getMessage("earnedLetters") + ": " + parola.getLettersForRightAnswers(playername));
+        System.out.print(languageContext.getMessage("makeWord") + ": ");
         String word = scanner.nextLine();
 
         int score = parola.calculateScore(playername, word);
-        System.out.println("Score: " + score);
+        System.out.println(languageContext.getMessage("score") + ": " + score);
     }
 }
 

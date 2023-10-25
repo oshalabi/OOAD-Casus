@@ -37,14 +37,8 @@ public class QuestionService implements IQuestionService {
     @Override
     public String getNextQuestion() {
         IQuestion question = questions.get(questionIndex);
-        if (question instanceof OpenQuestion) {
-            setLetterToEarnForQuestion(question, characters.get(questionIndex));
-            return questions.get(questionIndex).getQuestionForQuiz();
-        } else if (question instanceof MultipleChoiceQuestion) {
-            setLetterToEarnForQuestion(question, characters.get(questionIndex));
-            return questions.get(questionIndex).getQuestionForQuiz();
-        }
-        return languageContext.getMessage("questionNotFound");
+        setLetterToEarnForQuestion(question, characters.get(questionIndex));
+        return languageContext.getMessage("question") + questions.get(questionIndex).getQuestionForQuiz();
     }
 
     @Override

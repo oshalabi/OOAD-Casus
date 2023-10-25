@@ -22,7 +22,6 @@ public class ParolaController {
     private final LanguageContext languageContext;
     private final IPlayerService playerService;
     private final IQuizService quizService;
-    private final ICreditsService creditsService;
     private boolean allReadyLoggedIn = false;
     private boolean hasChosen = false;
 
@@ -30,7 +29,6 @@ public class ParolaController {
         this.languageContext = new LanguageContext();
         this.playerService = new PlayerService();
         this.quizService = new QuizService(playerService, languageContext);
-        this.creditsService = new CreditsService(playerService);
     }
 
     public static ParolaController getInstance() {
@@ -41,8 +39,8 @@ public class ParolaController {
     }
 
     private void register(String playerName) {
-        System.out.println("Please enter your password to make an account for you");
-        System.out.println("Now enter your Password: ");
+        System.out.println(languageContext.getMessage("passwordForNewAccount"));
+        System.out.println(languageContext.getMessage("enterYouPassword")+": ");
         String password = this.scanner.nextLine();
         playerService.addPlayer(playerName, password);
     }
@@ -50,14 +48,14 @@ public class ParolaController {
     public void addPlayer(String playerName) {
         Scanner scanner = new Scanner(System.in);
         if (playerService.checkPlayerByNameExists(playerName)) {
-            System.out.println("Enter your Password: ");
+            System.out.println(languageContext.getMessage("enterYouPassword")+": ");
             String password = scanner.nextLine();
 
             if (playerService.checkPlayerPassword(playerName, password)) {
                 playerService.addPlayer(playerName, password);
             } else {
-                System.out.println(playerName + " sorry we did not find your account. Please register with new player name");
-                System.out.println("Enter your new player name: ");
+                System.out.println(playerName + " " + languageContext.getMessage("accountNotFound"));
+                System.out.println(languageContext.getMessage("yourNewName")+": ");
                 String newPlayerName = scanner.nextLine();
                 addPlayer(newPlayerName);
             }
@@ -68,7 +66,7 @@ public class ParolaController {
 
     public void startQuiz(String playerName) {
         if (!allReadyLoggedIn) {
-            System.out.println(playerName + " You have logged in successfully");
+            System.out.println(playerName + " " + languageContext.getMessage("loggedIn"));
             allReadyLoggedIn = true;
         }
         boolean isAdmin = playerService.getPlayerByName(playerName).getIsAdmin();
@@ -95,7 +93,7 @@ public class ParolaController {
         }
     }
 
-    private void chooseLanguage() {
+    public LanguageContext chooseLanguage() {
             System.out.println("Please choose a language that you want to use: ");
             System.out.println("Choose 1 if you want to use English");
             System.out.println("Kies 2 als je Nederlands wilt gebruiken");
@@ -106,6 +104,7 @@ public class ParolaController {
             } else {
                 languageContext.setLanguageStrategy(new EnglishILanguageStrategy());
             }
+            return languageContext;
     }
 
     private void handleCreditPurchase(Scanner scanner, String playerName) {
@@ -147,7 +146,6 @@ public class ParolaController {
 
     private boolean toChooseOptions(String playerName, boolean isAdmin) {
         if (!hasChosen) {
-            chooseLanguage();
             System.out.println(languageContext.getMessage("choose1StartQuiz"));
             System.out.println(languageContext.getMessage("choose2toBuyCredits"));
             if (isAdmin) {
